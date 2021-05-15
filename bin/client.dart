@@ -57,11 +57,13 @@ class Client implements IClient {
 
   @override
   Future<bool> addDatabaseEntry(String id, Map<String, dynamic> data) async {
-    data.addAll({'database_id': id});
-
     try {
+      final body = {
+        'parent': {'database_id': id},
+        'properties': data
+      };
       final response =
-          await _server.request(_auth, METHOD.POST, TARGET.PAGE, null, data);
+          await _server.request(_auth, METHOD.POST, TARGET.PAGE, null, body);
       return response.statusCode == 200;
     } catch (err) {
       throw ('unable to add new entry to database#$id');
