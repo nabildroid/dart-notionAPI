@@ -1,7 +1,7 @@
 import '../../bin/schema.dart';
 
-enum Tags { person, device }
-enum Contexts { random, learning, programming }
+enum Tags { person, device, DEFAULT }
+enum Contexts { random, learning, programming, DEFAULT }
 
 class NameProperties extends SchemaProperties {
   final Text? name;
@@ -61,11 +61,13 @@ class NameSchema extends Schema implements NameProperties {
   static Map<Tags, String> tagsOptions() => {
         Tags.device: 'device',
         Tags.person: 'person',
+        Tags.DEFAULT: '',
       };
   static Map<Contexts, String> contextsOptions() => {
         Contexts.learning: 'learning',
         Contexts.programming: 'programming',
-        Contexts.random: 'random'
+        Contexts.random: 'random',
+        Contexts.DEFAULT: '',
       };
 
   @override

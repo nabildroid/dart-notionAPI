@@ -57,7 +57,7 @@ class Text implements Record<String> {
     bool isTitle = false,
   }) {
     final indicator = isTitle ? 'title' : 'text';
-    final texts = data['properties'][key][indicator] as List<dynamic>;
+    final List<dynamic> texts = (data['properties'][key]?[indicator]) ?? [];
     final text = texts.fold<String>(
         '',
         (previousValue, element) =>
@@ -88,7 +88,7 @@ class Number implements Record<double> {
     Map<String, dynamic> data, {
     required String key,
   }) {
-    final n = data['properties'][key]['number'];
+    final n = (data['properties'][key]?['number']) ?? 0;
 
     return Number(double.parse(n.toString()));
   }
@@ -109,7 +109,7 @@ class CheckBox implements Record<bool> {
     Map<String, dynamic> data, {
     required String key,
   }) {
-    final check = data['properties'][key]['checkbox'] as bool;
+    final bool check = (data['properties'][key]?['checkbox']) ?? false;
     return CheckBox(check);
   }
 
@@ -131,6 +131,8 @@ T _findKeyFromValue<T>(Map<T, String> options, String value) {
   return item.key;
 }
 
+/// T must contain a Default Entry
+// todo handle the default value of T, because it might be no option got selected
 class Select<T> implements Record<T> {
   @override
   final T value;
@@ -145,7 +147,7 @@ class Select<T> implements Record<T> {
     required String key,
     required Map<T, String> option,
   }) {
-    final name = data['properties'][key]['select']['name'];
+    final name = (data['properties'][key]?['select']['name']) ?? '';
     final value = _findKeyFromValue(option, name);
     return Select(value, option: option);
   }
@@ -174,7 +176,9 @@ class MultiSelect<T> implements Record<List<T>> {
     required String key,
     required Map<T, String> option,
   }) {
-    final names = data['properties'][key]['multi_select'] as List<dynamic>;
+    // todo refactor this mess
+    final List<dynamic> names =
+        (data['properties'][key]?['multi_select']) ?? '';
     final valuesStr = names.map<String>((e) => e['name']).toList();
     final values =
         valuesStr.map<T>((e) => _findKeyFromValue(option, e)).toList();
