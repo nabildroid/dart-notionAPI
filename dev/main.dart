@@ -13,4 +13,5 @@ void main() async {
   print('year        : ' + props.year.value.toInt().toString());
   print('tag         : ' + props.tags.value.toString());
   print('context     : ' + props.context.value.toString());
+  print('is done     : ' + props.done.value.toString());
 }

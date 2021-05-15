@@ -9,6 +9,7 @@ class NameProperties extends SchemaProperties {
   final Number? year;
   final Select<Tags>? tags;
   final MultiSelect<Contexts>? context;
+  final CheckBox? done;
 
   NameProperties({
     this.name,
@@ -16,6 +17,7 @@ class NameProperties extends SchemaProperties {
     this.year,
     this.tags,
     this.context,
+    this.done,
   });
 
   @override
@@ -26,6 +28,7 @@ class NameProperties extends SchemaProperties {
       'desc': desc,
       'year': year,
       'Tags': tags,
+      'done': done,
     });
   }
 }
@@ -41,6 +44,8 @@ class NameSchema extends Schema implements NameProperties {
   final Select<Tags> tags;
   @override
   final MultiSelect<Contexts> context;
+  @override
+  final CheckBox done;
 
   NameSchema(
     Map<String, dynamic> data, {
@@ -49,6 +54,7 @@ class NameSchema extends Schema implements NameProperties {
     required this.year,
     required this.tags,
     required this.context,
+    required this.done,
   }) : super(data);
 
   static Map<Tags, String> tagsOptions() => {

@@ -16,7 +16,7 @@ class PomodoroPage extends Page<PomodoroSchema> {
   @protected
   PomodoroSchema propsFromMap(Map<String, dynamic> data) => PomodoroSchema(
         data,
-        done: data['done'],
+        done: CheckBox.fromData(data, key: 'done'),
         name: data['name'],
         //
         status: Select(

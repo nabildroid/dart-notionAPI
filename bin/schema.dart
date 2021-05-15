@@ -103,6 +103,7 @@ class Number implements Record<double> {
   }
 }
 
+// all Records must be a const
 class CheckBox implements Record<bool> {
   @override
   final bool value;
@@ -113,7 +114,7 @@ class CheckBox implements Record<bool> {
     Map<String, dynamic> data, {
     required String key,
   }) {
-    final check = data['properties'][key] as bool;
+    final check = data['properties'][key]['checkbox'] as bool;
     return CheckBox(check);
   }
 

@@ -23,5 +23,6 @@ class NamePage extends Page<NameSchema> {
           key: 'Tags',
           option: NameSchema.tagsOptions(),
         ),
+        done: CheckBox.fromData(data, key: 'done'),
       );
 }

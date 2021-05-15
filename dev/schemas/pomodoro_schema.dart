@@ -5,7 +5,7 @@ enum Type { coding, design, writing }
 
 class PomodoroProperties extends SchemaProperties {
   final String? name;
-  final bool? done;
+  final CheckBox? done;
   final Select<Status>? status;
   final Select<Type>? type;
 
@@ -14,8 +14,7 @@ class PomodoroProperties extends SchemaProperties {
     this.done,
     this.status,
     this.type,
-    String? title,
-  }) : super(title);
+  });
 
   @override
   Map<String, dynamic> toMap() {
@@ -34,7 +33,7 @@ class PomodoroSchema extends Schema implements PomodoroProperties {
   @override
   final String name;
   @override
-  final bool done;
+  final CheckBox done;
   @override
   final Select<Status> status;
   @override
