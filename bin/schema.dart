@@ -39,7 +39,7 @@ abstract class SchemaProperties {
 abstract class Record<T> {
   final T value;
 
-  Record(this.value);
+  const Record(this.value);
 
   dynamic toMap();
 }
@@ -48,7 +48,7 @@ class Text implements Record<String> {
   @override
   final String value;
   final bool isTitle;
-  Text(this.value, {this.isTitle = false});
+  const Text(this.value, {this.isTitle = false});
 
   factory Text.fromData(
     Map<String, dynamic> data, {
@@ -86,7 +86,7 @@ class Number implements Record<double> {
   @override
   final double value;
 
-  Number(this.value);
+  const Number(this.value);
 
   factory Number.fromData(
     Map<String, dynamic> data, {
@@ -103,12 +103,11 @@ class Number implements Record<double> {
   }
 }
 
-// all Records must be a const
 class CheckBox implements Record<bool> {
   @override
   final bool value;
 
-  CheckBox(this.value);
+  const CheckBox(this.value);
 
   factory CheckBox.fromData(
     Map<String, dynamic> data, {
@@ -143,7 +142,7 @@ class Select<T> implements Record<T> {
   // todo rename it to option->s<-
   final Map<T, String> option;
 
-  Select(this.value, {this.option = const {}});
+  const Select(this.value, {this.option = const {}});
 
   factory Select.fromData(
     Map<String, dynamic> data, {
@@ -153,14 +152,6 @@ class Select<T> implements Record<T> {
     final name = data['properties'][key]['select']['name'];
     final value = _findKeyFromValue(option, name);
     return Select(value, option: option);
-  }
-
-  String select(T key) {
-    if (option[key] != null) {
-      return option[key] as String;
-    } else {
-      throw ('Invalide Select key');
-    }
   }
 
   @override
@@ -180,7 +171,7 @@ class MultiSelect<T> implements Record<List<T>> {
   // todo rename it to option->s<-
   final Map<T, String> option;
 
-  MultiSelect(this.value, {this.option = const {}});
+  const MultiSelect(this.value, {this.option = const {}});
 
   factory MultiSelect.fromData(
     Map<String, dynamic> data, {
@@ -192,12 +183,6 @@ class MultiSelect<T> implements Record<List<T>> {
     final values =
         valuesStr.map<T>((e) => _findKeyFromValue(option, e)).toList();
     return MultiSelect(values, option: option);
-  }
-
-  void add(T key) {
-    if (!value.contains(key)) {
-      value.add(key);
-    }
   }
 
   @override
