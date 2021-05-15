@@ -42,39 +42,98 @@ abstract class Record<T> {
   Record(this.value);
 
   dynamic toMap();
-
-  static void test() {}
 }
 
 class Text implements Record<String> {
   @override
   final String value;
-
-  Text(this.value);
+  final bool isTitle;
+  Text(this.value, {this.isTitle = false});
 
   factory Text.fromData(
     Map<String, dynamic> data, {
     required String key,
+    bool isTitle = false,
   }) {
-    final texts = data['properties'][key] as List<dynamic>;
+    final indicator = isTitle ? 'title' : 'text';
+    final texts = data['properties'][key][indicator] as List<dynamic>;
     final text = texts.fold<String>(
-        '', (previousValue, element) => previousValue + ' ' + element['text']);
-    return Text(text);
+        '',
+        (previousValue, element) =>
+            previousValue + ' ' + element['plain_text']);
+    return Text(text.trim(), isTitle: isTitle);
   }
 
   @override
-  List<Map<String, dynamic>> toMap() {
-    return [
-      {
-        'text': value,
-        'annotations': {'formatting': [], 'color': 'default', 'link': null},
-        'inline_object': null
-      }
-    ];
+  Map<String, dynamic> toMap() {
+    final m = {
+      'text': [
+        {
+          'type': 'text',
+          'text': {'content': value}
+        }
+      ]
+    };
+    if (isTitle) {
+      return {'title': m};
+    } else {
+      return m;
+    }
   }
 }
 
-void main() {}
+class Number implements Record<double> {
+  @override
+  final double value;
+
+  Number(this.value);
+
+  factory Number.fromData(
+    Map<String, dynamic> data, {
+    required String key,
+  }) {
+    final n = data['properties'][key]['number'];
+
+    return Number(double.parse(n.toString()));
+  }
+
+  @override
+  Map<String, dynamic> toMap() {
+    return {'number': value.toString()};
+  }
+}
+
+class CheckBox implements Record<bool> {
+  @override
+  final bool value;
+
+  CheckBox(this.value);
+
+  factory CheckBox.fromData(
+    Map<String, dynamic> data, {
+    required String key,
+  }) {
+    final check = data['properties'][key] as bool;
+    return CheckBox(check);
+  }
+
+  @override
+  Map<String, dynamic> toMap() {
+    return {'checkbox': value};
+  }
+}
+
+T _findKeyFromValue<T>(Map<T, String> options, String value) {
+  final item = options.entries.firstWhere(
+    (element) => (element.value == value),
+    orElse: () {
+      // todo better error handling
+      throw ('value "$value" doesn\'t exists in the options $options');
+    },
+  );
+
+  return item.key;
+}
 
 class Select<T> implements Record<T> {
   @override
@@ -90,8 +149,9 @@ class Select<T> implements Record<T> {
     required String key,
     required Map<T, String> option,
   }) {
-    final name = data['properties'][key]['name'];
-    return Select(name, option: option);
+    final name = data['properties'][key]['select']['name'];
+    final value = _findKeyFromValue(option, name);
+    return Select(value, option: option);
   }
 
   String select(T key) {
@@ -109,5 +169,40 @@ class Select<T> implements Record<T> {
     return {
       'select': {'name': value}
     };
+  }
+}
+
+class MultiSelect<T> implements Record<List<T>> {
+  @override
+  final List<T> value;
+
+  // todo rename it to option->s<-
+  final Map<T, String> option;
+
+  MultiSelect(this.value, {this.option = const {}});
+
+  factory MultiSelect.fromData(
+    Map<String, dynamic> data, {
+    required String key,
+    required Map<T, String> option,
+  }) {
+    final names = data['properties'][key]['multi_select'] as List<dynamic>;
+    final valuesStr = names.map<String>((e) => e['name']).toList();
+    final values =
+        valuesStr.map<T>((e) => _findKeyFromValue(option, e)).toList();
+    return MultiSelect(values, option: option);
+  }
+
+  void add(T key) {
+    if (!value.contains(key)) {
+      value.add(key);
+    }
+  }
+
+  @override
+  Map<String, dynamic> toMap() {
+    final values = value.map((key) => {'name': option[key]}).toList();
+
+    return {'multi_select': values};
   }
 }
