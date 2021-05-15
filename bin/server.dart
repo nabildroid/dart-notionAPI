@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:http/http.dart' as http;
 
 import 'interfaces/iserver.dart';
@@ -42,18 +44,18 @@ class Server implements IServer {
   Future<http.Response> request(String auth, METHOD method, TARGET target,
       String? id, Map<String, dynamic>? data) {
     final url = _parseUrl(target, id);
-
     final headers = {
       'Authorization': 'Bearer $auth',
+      'Content-type': 'application/json',
     };
-
+    final encodedBody = jsonEncode(data);
     switch (method) {
       case METHOD.GET:
         return http.get(url, headers: headers);
       case METHOD.POST:
-        return http.post(url, headers: headers, body: data);
+        return http.post(url, headers: headers, body: encodedBody);
       case METHOD.PATCH:
-        return http.patch(url, headers: headers, body: data);
+        return http.patch(url, headers: headers, body: encodedBody);
       case METHOD.DELETE:
         return http.delete(url, headers: headers);
       default:

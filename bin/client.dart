@@ -13,8 +13,9 @@ class Client implements IClient {
   @override
   Future<bool> setPageProperties(String id, Map<String, dynamic> data) async {
     try {
+      final body = {'properties': data};
       final response =
-          await _server.request(_auth, METHOD.PATCH, TARGET.PAGE, id, data);
+          await _server.request(_auth, METHOD.PATCH, TARGET.PAGE, id, body);
       return response.statusCode == 200;
     } catch (err) {
       throw ('unable to update properties of page#$id');

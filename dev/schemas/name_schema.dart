@@ -29,6 +29,7 @@ class NameProperties extends SchemaProperties {
       'year': year,
       'Tags': tags,
       'done': done,
+      'context': context,
     });
   }
 }

@@ -13,6 +13,7 @@ class Schema {
 
 /// helps to update some properties in pages
 /// used in the ```page.setProps(SchemaProperties props)```
+// todo this class should support pure data types instead of forcing the to use Records
 abstract class SchemaProperties {
   Map<String, dynamic> toMap();
 
@@ -66,19 +67,14 @@ class Text implements Record<String> {
 
   @override
   Map<String, dynamic> toMap() {
-    final m = {
-      'text': [
+    return {
+      isTitle ? 'title' : 'text': [
         {
           'type': 'text',
           'text': {'content': value}
         }
       ]
     };
-    if (isTitle) {
-      return {'title': m};
-    } else {
-      return m;
-    }
   }
 }
 
@@ -99,7 +95,7 @@ class Number implements Record<double> {
 
   @override
   Map<String, dynamic> toMap() {
-    return {'number': value.toString()};
+    return {'number': value};
   }
 }
 
