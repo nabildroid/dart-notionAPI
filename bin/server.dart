@@ -31,8 +31,15 @@ String _target2string(TARGET target) {
 class Server implements IServer {
   final endpoint = 'https://api.notion.com/v1';
 
-  Uri _parseUrl(TARGET target, String? id) {
+  Uri _parseUrl(TARGET target, METHOD method, String? id) {
     var url = '$endpoint/${_target2string(target)}/${id ?? ""}';
+
+    // todo this function knows so much about notion endpoint structure
+    // todo dirty fix!!
+    if (target == TARGET.DATABASE && method == METHOD.POST) {
+      url += '/query';
+    }
+
     if (target == TARGET.BLOCK) {
       url += '/children';
     }
@@ -43,7 +50,8 @@ class Server implements IServer {
   @override
   Future<http.Response> request(String auth, METHOD method, TARGET target,
       String? id, Map<String, dynamic>? data) {
-    final url = _parseUrl(target, id);
+    final url = _parseUrl(target, method, id);
+
     final headers = {
       'Authorization': 'Bearer $auth',
       'Content-type': 'application/json',

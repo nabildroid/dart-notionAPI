@@ -47,8 +47,9 @@ class Client implements IClient {
   @override
   Future<Map<String, dynamic>> getDatabaseItems(String id) async {
     try {
+      // todo '{}' in the body! seriously !!
       final response =
-          await _server.request(_auth, METHOD.GET, TARGET.DATABASE, id, null);
+          await _server.request(_auth, METHOD.POST, TARGET.DATABASE, id, {});
       return jsonDecode(response.body);
     } catch (err) {
       throw ('unable to fetch entries from database#$id');

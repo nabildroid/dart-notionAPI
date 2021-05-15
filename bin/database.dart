@@ -26,12 +26,12 @@ abstract class Database<T extends Schema> {
 
   Future<List<_Item<T>>> getItems({bool all = false}) async {
     final data = await _client.getDatabaseItems(id);
-    final items = data['results'] as List<dynamic>;
+    final items = data['results'];
 
-    return items.map((item) {
+    return items.map<_Item<T>>((item) {
       final page = createPage(_client, item['id']);
       return _Item(
-        page.propsFromMap(data),
+        page.propsFromMap(item),
         page,
       );
     }).toList();
