@@ -7,6 +7,8 @@ import '../schemas/note_schema.dart';
 class NamePage extends Page<NameSchema> {
   NamePage(IClient client, String id) : super(client: client, id: id);
 
+  /// data comes as JsonDecode(Reponse.body) from Notion API
+  // todo better function name, what the heck is "Map" !!!!
   @override
   NameSchema propsFromMap(Map<String, dynamic> data) => NameSchema(
         data,

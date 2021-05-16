@@ -20,9 +20,28 @@ class NameProperties extends SchemaProperties {
     this.done,
   });
 
+  // todo Dart's fault not mine
+  NameProperties.fromValues({
+    String? name,
+    String? desc,
+    double? year,
+    Tags? tags,
+    List<Contexts>? context,
+    bool? done,
+  })  : name = name != null ? Text(name, isTitle: true) : null,
+        desc = desc != null ? Text(desc) : null,
+        year = year != null ? Number(year) : null,
+        tags = tags != null
+            ? Select(tags, option: NameSchema.tagsOptions())
+            : null,
+        context = context != null
+            ? MultiSelect(context, option: NameSchema.contextsOptions())
+            : null,
+        done = done != null ? CheckBox(done) : null;
+
   @override
   Map<String, dynamic> toMap() {
-    // todo the kays belows are the same as Page.propsFromMap!!
+    // todo the keys below are the same as Page.propsFromMap!!
     return createMap({
       'name': name,
       'desc': desc,
