@@ -1,4 +1,4 @@
-import '../../bin/schema.dart';
+import 'package:dartNotionAPI/dart-notionAPI.dart';
 
 enum COLORS { red, blue, orage }
 

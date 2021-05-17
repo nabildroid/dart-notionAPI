@@ -1,6 +1,4 @@
-import '../../bin/page.dart';
-import '../../bin/interfaces/iclient.dart';
-import '../../bin/schema.dart';
+import 'package:dartNotionAPI/dart-notionAPI.dart';
 
 class DashboardPage extends Page {
   DashboardPage(IClient client, String id)

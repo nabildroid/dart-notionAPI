@@ -1,6 +1,4 @@
-import '../../bin/page.dart';
-import '../../bin/schema.dart';
-import '../../bin/interfaces/iclient.dart';
+import 'package:dartNotionAPI/dart-notionAPI.dart';
 import '../schemas/name_schema.dart';
 import '../schemas/note_schema.dart';
 

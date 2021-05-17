@@ -1,4 +1,4 @@
-import '../../bin/schema.dart';
+import 'package:dartNotionAPI/dart-notionAPI.dart';
 
 enum Status { pending, done, progress }
 enum Type { coding, design, writing }

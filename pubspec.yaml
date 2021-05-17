@@ -1,7 +1,7 @@
 name: dartNotionAPI
 description: a wrapper around notion API in dart.
-# version: 1.0.0
-# homepage: https://www.example.com
+version: 1.0.0
+homepage: https://github.com/nabildroid/dart-notionAPI
 
 environment:
   sdk: ">=2.12.0 <3.0.0"

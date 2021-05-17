@@ -1,4 +1,4 @@
-import '../../bin/schema.dart';
+import 'package:dartNotionAPI/dart-notionAPI.dart';
 
 enum Tags { person, device, DEFAULT }
 enum Contexts { random, learning, programming, DEFAULT }

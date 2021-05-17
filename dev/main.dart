@@ -1,8 +1,4 @@
 import 'schemas/name_schema.dart';
-import 'schemas/note_schema.dart';
-import '../bin/schema.dart';
-import '../bin/page.dart';
-import 'schemas/pomodoro_schema.dart';
 import 'workspace.dart';
 
 const auth = 'secret_Xik0SM87q2OaDXreJexf0WdkjmI2VBCNpJi7RNwrsSL';

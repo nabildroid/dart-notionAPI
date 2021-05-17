@@ -1,12 +1,10 @@
 import 'package:meta/meta.dart';
+import 'package:dartNotionAPI/dart-notionAPI.dart';
 
-import '../../bin/page.dart';
-import '../../bin/client.dart';
-import '../../bin/schema.dart';
 import '../schemas/pomodoro_schema.dart';
 
 class PomodoroPage extends Page<PomodoroSchema> {
-  PomodoroPage(Client client, String id)
+  PomodoroPage(IClient client, String id)
       : super(
           client: client,
           id: id,

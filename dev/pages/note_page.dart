@@ -1,6 +1,5 @@
-import '../../bin/page.dart';
-import '../../bin/schema.dart';
-import '../../bin/interfaces/iclient.dart';
+import 'package:dartNotionAPI/dart-notionAPI.dart';
+
 import '../schemas/note_schema.dart';
 
 class NotePage extends Page<NoteSchema> {
